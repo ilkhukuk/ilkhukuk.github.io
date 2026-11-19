@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="512" height="512" role="img" aria-label="İlker Şendoğan logosu">
+  <rect width="40" height="40" rx="10" fill="#101828"/>
+  <rect x=".5" y=".5" width="39" height="39" rx="9.5" fill="none" stroke="#2B3A55"/>
+  <g fill="#fff" shape-rendering="crispEdges">
+    <rect x="14" y="14" width="4" height="4"/><rect x="18" y="14" width="4" height="4"/><rect x="22" y="14" width="4" height="4"/>
+    <rect x="18" y="18" width="4" height="4"/><rect x="18" y="22" width="4" height="4"/><rect x="18" y="26" width="4" height="4"/>
+    <rect x="14" y="30" width="4" height="4"/><rect x="18" y="30" width="4" height="4"/><rect x="22" y="30" width="4" height="4"/>
+  </g>
+  <rect x="18" y="6" width="4" height="4" fill="#D8FF3E" shape-rendering="crispEdges"/>
+</svg>
