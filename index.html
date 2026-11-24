@@ -101,8 +101,32 @@ a { color: inherit; }
 .nav { display: flex; align-items: center; gap: 22px; }
 .nav a:not(.btn) { text-decoration: none; color: var(--ink-2); font-size: .92rem; font-weight: 500; }
 .nav a:not(.btn):hover { color: var(--ink); }
-@media (max-width: 720px) { .nav a:not(.btn) { display: none; } }
+@media (max-width: 960px) { .nav a:not(.btn) { display: none; } }
 [hidden] { display: none !important; }
+/* Dil ve tema */
+.ctl { display: flex; align-items: center; gap: 8px; }
+.lang { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.lang button {
+  border: 0; background: transparent; color: var(--ink-2); font: 600 .72rem var(--font-mono); letter-spacing: .06em;
+  padding: 0 .65rem; height: 34px; min-width: 38px; border-radius: 999px; cursor: pointer;
+}
+.lang button:hover { color: var(--ink); }
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.theme-btn {
+  display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer;
+}
+.theme-btn:hover { border-color: var(--ink); }
+.theme-btn svg { width: 18px; height: 18px; }
+.theme-btn .sun { display: none; }
+.theme-btn.is-dark .sun { display: block; }
+.theme-btn.is-dark .moon { display: none; }
+.mctl { display: none; }
+@media (max-width: 960px) {
+  .nav .btn-sm, .nav .lang { display: none; }
+  .mnav .mctl { display: flex; align-items: center; padding: 14px 4px 4px; }
+}
+
 section[id], main[id] { scroll-margin-top: 68px; }
 .brand { flex: none; gap: 11px; }
 .brand .logo { width: 38px; height: 38px; flex: none; }
@@ -134,7 +158,7 @@ section[id], main[id] { scroll-margin-top: 68px; }
 }
 .mnav a::after { content: "→"; font: 400 1rem var(--font-mono); color: var(--accent); }
 .mnav a:last-child { border-bottom: 0; }
-@media (max-width: 720px) {
+@media (max-width: 960px) {
   .menu-btn { display: block; }
   .nav { gap: 10px; }
   .mnav:not([hidden]) { display: grid; }
@@ -435,6 +459,7 @@ textarea.field { min-height: 120px; resize: vertical; field-sizing: content; max
 footer { padding-block: 28px 40px; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--ink-2); font-size: .88rem; border-top: 1px solid var(--line); padding-top: 22px; }
 </style>
+<script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <style>:root{color-scheme:light dark}</style>
 </head>
 <body>
@@ -456,7 +481,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a href="#surec">Süreç</a>
       <a href="#sss">Sık sorulanlar</a>
       <a class="btn btn-primary btn-sm" href="#iletisim">İletişim</a>
-      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Menüyü aç"><span></span><span></span></button>
+      <div class="lang" role="group" aria-label="Dil"><button type="button" data-lang="tr" lang="tr" aria-pressed="true">TR</button><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><button type="button" data-lang="de" lang="de" aria-pressed="false">DE</button></div>
+      <button class="theme-btn" id="theme-btn" type="button" data-no-i18n aria-label="Koyu temaya geç"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="menu-btn" id="menu-btn" type="button" data-no-i18n aria-expanded="false" aria-controls="mnav" aria-label="Menüyü aç"><span></span><span></span></button>
     </nav>
   </div>
   <nav class="mnav" id="mnav" aria-label="Mobil menü" hidden>
@@ -465,6 +492,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     <a href="#surec">Süreç</a>
     <a href="#sss">Sık sorulanlar</a>
     <a href="#iletisim">İletişim</a>
+    <div class="mctl"><div class="lang" role="group" aria-label="Dil"><button type="button" data-lang="tr" lang="tr" aria-pressed="true">TR</button><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><button type="button" data-lang="de" lang="de" aria-pressed="false">DE</button></div></div>
   </nav>
 </header>
 
@@ -473,7 +501,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     <div class="wrap hero-grid">
       <div>
         <span class="pill mono"><b></b>Yeni projeler için müsaitim</span>
-        <h1>Aranan, kullanılan ve büyüyen <mark>yazılımlar</mark> geliştiriyorum.</h1>
+        <h1 id="h1" data-no-i18n>Aranan, kullanılan ve büyüyen <mark>yazılımlar</mark> geliştiriyorum.</h1>
         <p class="lead">Web sitesi ve SEO, mobil uygulama, kurumsal yazılım. Tasarımdan yayına ve sonrasındaki bakıma kadar tüm süreci tek kişiyle, doğrudan konuşarak yürütürsünüz.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#iletisim">Projenizi anlatın →</a>
@@ -749,9 +777,10 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
             <div><label class="lbl" for="f-eposta">E-posta</label><input class="field" id="f-eposta" name="eposta" type="email" autocomplete="email" placeholder="ornek@firma.com"></div>
           </div>
           <div><label class="lbl" for="f-mesaj">Projeniz</label><textarea class="field" id="f-mesaj" name="mesaj" placeholder="Ne yapmak istiyorsunuz, kimler kullanacak, hedef tarih var mı?"></textarea></div>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <div class="form-foot">
             <button class="btn btn-mark" type="submit">Gönder →</button>
-            <p id="durum" role="status" aria-live="polite"></p>
+            <p id="durum" role="status" aria-live="polite" data-no-i18n></p>
           </div>
           <pre id="ozet" hidden></pre>
         </form>
@@ -770,23 +799,114 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script>
 (() => {
   // Yayına alırken form servisinizin adresini buraya yazın (Formspree, Getform, kendi API'niz vb.).
-  const FORM_ENDPOINT = "";
+  const FORM_ENDPOINT = "https://formspree.io/f/xbgoqwqy";
+
+  const I18N = {"en": {"Web · SEO · Mobil": "Web · SEO · Mobile", "Hizmetler": "Services", "Çalışmalar": "Work", "Süreç": "Process", "Sık sorulanlar": "FAQ", "İletişim": "Contact", "Yeni projeler için müsaitim": "Available for new projects", "Web sitesi ve SEO, mobil uygulama, kurumsal yazılım. Tasarımdan yayına ve sonrasındaki bakıma kadar tüm süreci tek kişiyle, doğrudan konuşarak yürütürsünüz.": "Websites and SEO, mobile apps, business software. From design to launch and ongoing maintenance, you work with one person and talk to them directly.", "Projenizi anlatın →": "Tell me about your project →", "Hizmetlere bakın": "See services", "Entegrasyon": "Integration", "Çalışma alanları": "Areas of work", "Arama sonucu örneği": "Search result example", "Alan Adınız | Hizmetler ve Fiyatlar": "Your Domain | Services and Pricing", "Hızlı açılan, telefonda kusursuz görünen ve arama motorlarının kolay anladığı bir web sitesi.": "A fast website that looks perfect on phones and is easy for search engines to understand.", "Organik ziyaret": "Organic visits", "örnek veri": "sample data", "Siparişlerim": "My orders", "Hoş geldiniz": "Welcome", "Dört alanda, baştan sona.": "Four areas, end to end.", "İhtiyacınıza göre tek bir başlıkla başlayabilir, işiniz büyüdükçe diğerlerini ekleyebilirsiniz.": "Start with the one area that fits your need and add the others as your business grows.", "Web sayfası ve SEO": "Website and SEO", "Google'ın da ziyaretçinin de sevdiği siteler": "Sites that Google and visitors both like", "Hızlı açılan, her ekranda düzgün çalışan ve arama motorlarının kolayca anladığı bir yapıyla kurulur.": "Built to load fast, work properly on every screen and be easy for search engines to understand.", "Teknik SEO: site haritası, schema.org, canonical ve Core Web Vitals": "Technical SEO: sitemap, schema.org, canonical tags and Core Web Vitals", "Anahtar kelime araştırmasına dayalı sayfa ve içerik yapısı": "Page and content structure based on keyword research", "Erişilebilir ve her ekranda çalışan arayüz": "Accessible interface that works on every screen", "Performans": "Performance", "Erişilebilirlik": "Accessibility", "En iyi uygulamalar": "Best practices", "Teslimde hedeflediğim Lighthouse skorları": "Lighthouse scores I aim for at delivery", "Mobil uygulama": "Mobile app", "iOS ve Android'de cebe sığan ürünler": "Products that fit in your pocket, on iOS and Android", "Fikir aşamasından mağaza yayınına ve sonraki güncellemelere kadar.": "From the idea stage to the store release and later updates.", "Kurumsal çözümler": "Business solutions", "Mevcut sistemlerinizle konuşan yazılımlar": "Software that talks to your existing systems", "Yönetim panelleri, iç süreç otomasyonu, raporlama ve entegrasyonlar. Dağınık araçlardaki veri tek bir düzene taşınır.": "Admin panels, internal process automation, reporting and integrations. Data from scattered tools moves into one system.", "Mevcut sistemler API katmanı üzerinden yeni yazılıma bağlanır": "Existing systems connect to the new software through an API layer", "Mevcut sisteminiz": "Your current system", "ERP / Muhasebe": "ERP / Accounting", "e-Fatura": "e-Invoice", "API katmanı": "API layer", "Yeni yazılım": "New software", "Yönetim paneli": "Admin panel", "Raporlar": "Reports", "Yayın sonrası": "After launch", "Canlıya çıkınca iş bitmiyor": "The work doesn't end at launch", "Sitenizi ve uygulamanızı çalışır, güvenli ve güncel tutarım.": "I keep your site and app running, secure and up to date.", "Çalışma süresi izleme": "Uptime monitoring", "izleniyor": "monitored", "Güvenlik güncellemeleri": "Security updates", "aylık": "monthly", "Hata düzeltme ve küçük özellikler": "Bug fixes and small features", "destek": "support", "Ek hizmetler": "Additional services", "Site hızlandırma ve SEO denetimi": "Site speed-up and SEO audit", "Yavaş açılan ya da sıralamada geride kalan siteler için tek seferlik inceleme ve düzeltme listesi.": "A one-time review and fix list for sites that load slowly or rank poorly.", "Analitik ve ölçüm kurulumu": "Analytics and tracking setup", "Google Analytics 4, Search Console ve dönüşüm takibi. Ziyaretçinin ne yaptığını görürsünüz.": "Google Analytics 4, Search Console and conversion tracking. You see what visitors do.", "Yerel SEO": "Local SEO", "Google işletme profili, harita sıralaması ve yorum yönetimi. Klinik, restoran ve ofisler için.": "Google Business Profile, map rankings and review management. For clinics, restaurants and offices.", "E-ticaret sitesi": "E-commerce site", "Ürün yönetimi, ödeme altyapısı ve kargo entegrasyonu ile satışa hazır mağaza.": "A store ready to sell, with product management, payment setup and shipping integration.", "Rezervasyon ve randevu sayfaları": "Booking and appointment pages", "Müşterinin kendi saatini seçebildiği, takvimle çalışan basit sistemler.": "Simple calendar-based systems where customers pick their own time.", "Çok dilli site ve içerik paneli": "Multilingual site and content panel", "Metinleri ve görselleri kod bilmeden kendiniz güncelleyebilirsiniz.": "Update texts and images yourself, no coding needed.", "Alan adı, hosting ve e-posta": "Domain, hosting and email", "Kurulum, taşıma ve yönetim. Teknik ayrıntılarla uğraşmazsınız.": "Setup, migration and management. You don't deal with the technical details.", "Teknik danışmanlık ve kod incelemesi": "Technical consulting and code review", "Teklif değerlendirme, altyapı seçimi ve mevcut projenin gözden geçirilmesi.": "Quote evaluation, infrastructure choices and a review of your existing project.", "Ekip eğitimi": "Team training", "İçerik yönetimi ve SEO temelleri üzerine kısa, uygulamalı atölyeler.": "Short, hands-on workshops on content management and SEO basics.", "Yaptığım işlerden örnekler": "Examples of my work", "Her proje için hedefi, yapılanı ve ortaya çıkan sonucu kısaca görebilirsiniz.": "For each project you can briefly see the goal, what was done and the result.", "Web ve SEO": "Web and SEO", "7/24 çekici, yol yardım ve vinç kiralama işletmesi için hazırlanan site. Nevşehir merkez ve her ilçe için ayrı hizmet bölgesi sayfaları, arama motoru etiketleri ve telefon ile WhatsApp'tan tek dokunuşla ulaşım.": "A site built for a 24/7 towing, roadside assistance and crane rental business. Separate service-area pages for Nevşehir city center and each district, search engine tags, and one-tap access by phone and WhatsApp.", "Yerel SEO · Nevşehir": "Local SEO · Nevşehir", "Siteyi aç ↗": "Open site ↗", "Avrupa'daki Türk marketleri için afiş, broşür, sosyal medya ve fiyat etiketi tasarlayan uygulama. Hazır şablonlar, 30 binden fazla ürün görseli ve iki dilli tasarım. iOS ve Android'de.": "An app that designs flyers, posters, social media posts and price labels for Turkish grocery stores in Europe. Ready-made templates, more than 30,000 product images and bilingual designs. On iOS and Android.", "Mobil uygulama · Avrupa": "Mobile app · Europe", "E-ticaret": "E-commerce", "Hollanda merkezli, Ege ve Türk ürünleri satan online market. Yaklaşık 300 ürün, 19 kategori, sepet, sipariş takibi, ülkeye göre kargo ücreti ve WhatsApp ile sipariş.": "An online grocery store based in the Netherlands selling Aegean and Turkish products. About 300 products, 19 categories, cart, order tracking, country-based shipping rates and ordering via WhatsApp.", "E-ticaret · Hollanda": "E-commerce · Netherlands", "Kocaeli'de üretilen ahşap ev dekorasyonu, çocuk ve evcil hayvan ürünleri mağazası. Kategorili ürün yapısı, güvenli ödeme, 2000 TL üzeri ücretsiz kargo ve iade koşulları.": "A store for wooden home décor, kids' and pet products made in Kocaeli. Categorized product structure, secure payment, free shipping over 2000 TL and return policy.", "E-ticaret · Kocaeli": "E-commerce · Kocaeli", "Bir projenin yolu": "How a project unfolds", "Her adımın sonunda elinizde somut bir çıktı olur, böylece neyin ne zaman biteceği hep açıktır.": "Each step ends with something concrete in your hands, so it's always clear what will be done and when.", "Keşif": "Discovery", "Hedefinizi, kullanıcılarınızı ve mevcut sistemlerinizi dinlerim. Sonunda yazılı kapsam ve teklif alırsınız.": "I listen to your goals, your users and your current systems. You end up with a written scope and quote.", "Tasarım": "Design", "Tıklanabilir bir prototip hazırlanır. Kod yazılmadan önce ekranları görür ve onaylarsınız.": "A clickable prototype is prepared. You see and approve the screens before any code is written.", "Geliştirme": "Development", "Haftalık demolarla ilerlenir. Her hafta çalışan bir sürümü kendiniz denersiniz.": "We move forward with weekly demos. Every week you try a working version yourself.", "Yayın ve destek": "Launch and support", "Canlıya alma, ölçüm kurulumu ve sonrasında bakım planı.": "Going live, tracking setup and a maintenance plan afterwards.", "Çalışma ilkeleri": "Working principles", "Kaynak kod sizde": "You own the source code", "Proje bitince kod, alan adı ve hesaplar adınıza teslim edilir.": "When the project ends, the code, domain and accounts are handed over in your name.", "Yazılı kapsam ve fiyat": "Written scope and price", "Başlamadan önce neyin ne kadara yapılacağı netleşir.": "Before starting, it's settled what will be done and for how much.", "Haftalık demo": "Weekly demo", "İlerlemeyi rapordan değil, çalışan üründen görürsünüz.": "You see progress from the working product, not from a report.", "Başlamadan önce akla gelenler": "Questions before you start", "Projeler ne kadar sürer?": "How long do projects take?", "Kapsama bağlıdır. Keşif görüşmesinin sonunda yazılı bir takvim ve teklif gönderirim.": "It depends on the scope. After the discovery call I send a written timeline and quote.", "SEO çalışması site yapımına dahil mi?": "Is SEO work included in building the site?", "Teknik SEO her sitede standarttır. Anahtar kelime araştırması ve içerik stratejisi ayrı kalem olarak teklife yazılır.": "Technical SEO is standard on every site. Keyword research and content strategy are listed as a separate item in the quote.", "Mevcut sitem veya uygulamam için destek alabilir miyim?": "Can I get support for my existing site or app?", "Evet. Hız, SEO, hata düzeltme veya yeni özellik için tek seferlik ya da aylık destek verebilirim.": "Yes. I can offer one-time or monthly support for speed, SEO, bug fixes or new features.", "Projenizi kısaca anlatın.": "Tell me briefly about your project.", "Mesajınıza yazılı bir ilk değerlendirmeyle dönerim. Form yerine doğrudan e-posta da yazabilirsiniz.": "I'll reply to your message with a written first assessment. You can also email me directly instead of using the form.", "Kopyala": "Copy", "LinkedIn profilim ↗": "My LinkedIn profile ↗", "Ne üzerine?": "What is it about?", "Web sitesi ve SEO": "Website and SEO", "Kurumsal yazılım": "Business software", "Diğer": "Other", "Adınız": "Your name", "E-posta": "Email", "Projeniz": "Your project", "Adınız Soyadınız": "Your full name", "Ne yapmak istiyorsunuz, kimler kullanacak, hedef tarih var mı?": "What do you want to build, who will use it, is there a target date?", "Gönder →": "Send →", "© 2026 İlker Şendoğan. Yazılım geliştirme.": "© 2026 İlker Şendoğan. Software development.", "Başa dön ↑": "Back to top ↑", "İlker Şendoğan, ana sayfa": "İlker Şendoğan, home", "Ana menü": "Main menu", "Mobil menü": "Mobile menu", "Dil": "Language", "Menüyü aç": "Open menu", "Menüyü kapat": "Close menu", "Koyu temaya geç": "Switch to dark theme", "Açık temaya geç": "Switch to light theme", "Kopyalandı": "Copied", "Seçildi, Ctrl+C ile kopyalayın": "Selected, press Ctrl+C to copy", "Size dönebilmem için geçerli bir e-posta adresi yazın.": "Enter a valid email address so I can reply.", "Mesajınız iletildi. En kısa sürede dönüş yapacağım.": "Your message was sent. I'll get back to you as soon as possible.", "Mesaj gönderilemedi. Lütfen e-posta ile yazın.": "The message couldn't be sent. Please write to me by email.", "Önizleme modu: form henüz bir adrese bağlı değil, mesajınız aşağıda hazırlandı.": "Preview mode: the form isn't connected to an address yet, your message is prepared below."}, "de": {"Web · SEO · Mobil": "Web · SEO · Mobile", "Hizmetler": "Leistungen", "Çalışmalar": "Projekte", "Süreç": "Ablauf", "Sık sorulanlar": "FAQ", "İletişim": "Kontakt", "Yeni projeler için müsaitim": "Verfügbar für neue Projekte", "Web sitesi ve SEO, mobil uygulama, kurumsal yazılım. Tasarımdan yayına ve sonrasındaki bakıma kadar tüm süreci tek kişiyle, doğrudan konuşarak yürütürsünüz.": "Website und SEO, mobile Apps, Unternehmenssoftware. Von der Gestaltung über den Launch bis zur laufenden Wartung arbeiten Sie mit einer Person und sprechen direkt mit ihr.", "Projenizi anlatın →": "Projekt schildern →", "Hizmetlere bakın": "Leistungen ansehen", "Entegrasyon": "Integration", "Çalışma alanları": "Arbeitsbereiche", "Arama sonucu örneği": "Beispiel Suchergebnis", "Alan Adınız | Hizmetler ve Fiyatlar": "Ihre Domain | Leistungen und Preise", "Hızlı açılan, telefonda kusursuz görünen ve arama motorlarının kolay anladığı bir web sitesi.": "Eine schnelle Website, die auf dem Smartphone perfekt aussieht und von Suchmaschinen leicht verstanden wird.", "Organik ziyaret": "Organische Besuche", "örnek veri": "Beispieldaten", "Siparişlerim": "Meine Bestellungen", "Hoş geldiniz": "Willkommen", "Dört alanda, baştan sona.": "Vier Bereiche, von Anfang bis Ende.", "İhtiyacınıza göre tek bir başlıkla başlayabilir, işiniz büyüdükçe diğerlerini ekleyebilirsiniz.": "Starten Sie mit einem Bereich, der zu Ihrem Bedarf passt, und ergänzen Sie die anderen, wenn Ihr Geschäft wächst.", "Web sayfası ve SEO": "Website und SEO", "Google'ın da ziyaretçinin de sevdiği siteler": "Websites, die Google und Besucher gleichermaßen mögen", "Hızlı açılan, her ekranda düzgün çalışan ve arama motorlarının kolayca anladığı bir yapıyla kurulur.": "Schnell ladend, auf jedem Bildschirm sauber dargestellt und für Suchmaschinen leicht verständlich aufgebaut.", "Teknik SEO: site haritası, schema.org, canonical ve Core Web Vitals": "Technisches SEO: Sitemap, schema.org, Canonical-Tags und Core Web Vitals", "Anahtar kelime araştırmasına dayalı sayfa ve içerik yapısı": "Seiten- und Inhaltsstruktur auf Basis von Keyword-Recherche", "Erişilebilir ve her ekranda çalışan arayüz": "Barrierefreie Oberfläche, die auf jedem Bildschirm funktioniert", "Performans": "Leistung", "Erişilebilirlik": "Barrierefreiheit", "En iyi uygulamalar": "Best Practices", "Teslimde hedeflediğim Lighthouse skorları": "Lighthouse-Werte, die ich zur Übergabe anstrebe", "Mobil uygulama": "Mobile App", "iOS ve Android'de cebe sığan ürünler": "Produkte für die Hosentasche, auf iOS und Android", "Fikir aşamasından mağaza yayınına ve sonraki güncellemelere kadar.": "Von der Idee bis zur Veröffentlichung im Store und zu späteren Updates.", "Kurumsal çözümler": "Unternehmenslösungen", "Mevcut sistemlerinizle konuşan yazılımlar": "Software, die mit Ihren bestehenden Systemen spricht", "Yönetim panelleri, iç süreç otomasyonu, raporlama ve entegrasyonlar. Dağınık araçlardaki veri tek bir düzene taşınır.": "Verwaltungsoberflächen, interne Prozessautomatisierung, Reporting und Integrationen. Daten aus verstreuten Tools wandern in ein einheitliches System.", "Mevcut sistemler API katmanı üzerinden yeni yazılıma bağlanır": "Bestehende Systeme werden über eine API-Schicht mit der neuen Software verbunden", "Mevcut sisteminiz": "Ihr aktuelles System", "ERP / Muhasebe": "ERP / Buchhaltung", "e-Fatura": "E-Rechnung", "API katmanı": "API-Schicht", "Yeni yazılım": "Neue Software", "Yönetim paneli": "Admin-Bereich", "Raporlar": "Berichte", "Yayın sonrası": "Nach dem Launch", "Canlıya çıkınca iş bitmiyor": "Mit dem Launch ist die Arbeit nicht zu Ende", "Sitenizi ve uygulamanızı çalışır, güvenli ve güncel tutarım.": "Ich halte Ihre Website und App lauffähig, sicher und aktuell.", "Çalışma süresi izleme": "Verfügbarkeitsüberwachung", "izleniyor": "überwacht", "Güvenlik güncellemeleri": "Sicherheitsupdates", "aylık": "monatlich", "Hata düzeltme ve küçük özellikler": "Fehlerbehebung und kleine Funktionen", "destek": "Support", "Ek hizmetler": "Weitere Leistungen", "Site hızlandırma ve SEO denetimi": "Website-Beschleunigung und SEO-Audit", "Yavaş açılan ya da sıralamada geride kalan siteler için tek seferlik inceleme ve düzeltme listesi.": "Einmalige Prüfung und Maßnahmenliste für Websites, die langsam laden oder schlecht ranken.", "Analitik ve ölçüm kurulumu": "Analytics- und Tracking-Einrichtung", "Google Analytics 4, Search Console ve dönüşüm takibi. Ziyaretçinin ne yaptığını görürsünüz.": "Google Analytics 4, Search Console und Conversion-Tracking. Sie sehen, was Besucher tun.", "Yerel SEO": "Lokales SEO", "Google işletme profili, harita sıralaması ve yorum yönetimi. Klinik, restoran ve ofisler için.": "Google-Unternehmensprofil, Kartenplatzierung und Bewertungsmanagement. Für Praxen, Restaurants und Büros.", "E-ticaret sitesi": "Online-Shop", "Ürün yönetimi, ödeme altyapısı ve kargo entegrasyonu ile satışa hazır mağaza.": "Verkaufsfertiger Shop mit Produktverwaltung, Zahlungsabwicklung und Versandanbindung.", "Rezervasyon ve randevu sayfaları": "Buchungs- und Terminseiten", "Müşterinin kendi saatini seçebildiği, takvimle çalışan basit sistemler.": "Einfache kalenderbasierte Systeme, in denen Kunden ihre Zeit selbst wählen.", "Çok dilli site ve içerik paneli": "Mehrsprachige Website und Redaktionsbereich", "Metinleri ve görselleri kod bilmeden kendiniz güncelleyebilirsiniz.": "Texte und Bilder aktualisieren Sie selbst, ganz ohne Programmierkenntnisse.", "Alan adı, hosting ve e-posta": "Domain, Hosting und E-Mail", "Kurulum, taşıma ve yönetim. Teknik ayrıntılarla uğraşmazsınız.": "Einrichtung, Umzug und Verwaltung. Sie müssen sich nicht um technische Details kümmern.", "Teknik danışmanlık ve kod incelemesi": "Technische Beratung und Code-Review", "Teklif değerlendirme, altyapı seçimi ve mevcut projenin gözden geçirilmesi.": "Angebotsprüfung, Wahl der Infrastruktur und Überprüfung Ihres bestehenden Projekts.", "Ekip eğitimi": "Team-Schulung", "İçerik yönetimi ve SEO temelleri üzerine kısa, uygulamalı atölyeler.": "Kurze, praxisnahe Workshops zu Content-Management und SEO-Grundlagen.", "Yaptığım işlerden örnekler": "Beispiele aus meiner Arbeit", "Her proje için hedefi, yapılanı ve ortaya çıkan sonucu kısaca görebilirsiniz.": "Zu jedem Projekt sehen Sie kurz das Ziel, was umgesetzt wurde und das Ergebnis.", "Web ve SEO": "Web und SEO", "7/24 çekici, yol yardım ve vinç kiralama işletmesi için hazırlanan site. Nevşehir merkez ve her ilçe için ayrı hizmet bölgesi sayfaları, arama motoru etiketleri ve telefon ile WhatsApp'tan tek dokunuşla ulaşım.": "Eine Website für ein 24/7-Abschlepp-, Pannenhilfe- und Kranvermietungsunternehmen. Eigene Einsatzgebietsseiten für das Zentrum von Nevşehir und jeden Landkreis, Suchmaschinen-Tags und Kontakt per Telefon und WhatsApp mit einem Fingertipp.", "Yerel SEO · Nevşehir": "Lokales SEO · Nevşehir", "Siteyi aç ↗": "Website öffnen ↗", "Avrupa'daki Türk marketleri için afiş, broşür, sosyal medya ve fiyat etiketi tasarlayan uygulama. Hazır şablonlar, 30 binden fazla ürün görseli ve iki dilli tasarım. iOS ve Android'de.": "Eine App, die Flyer, Plakate, Social-Media-Beiträge und Preisschilder für türkische Supermärkte in Europa gestaltet. Fertige Vorlagen, mehr als 30.000 Produktbilder und zweisprachige Designs. Für iOS und Android.", "Mobil uygulama · Avrupa": "Mobile App · Europa", "E-ticaret": "E-Commerce", "Hollanda merkezli, Ege ve Türk ürünleri satan online market. Yaklaşık 300 ürün, 19 kategori, sepet, sipariş takibi, ülkeye göre kargo ücreti ve WhatsApp ile sipariş.": "Ein Online-Supermarkt mit Sitz in den Niederlanden für ägäische und türkische Produkte. Rund 300 Produkte, 19 Kategorien, Warenkorb, Bestellverfolgung, länderspezifische Versandkosten und Bestellung per WhatsApp.", "E-ticaret · Hollanda": "E-Commerce · Niederlande", "Kocaeli'de üretilen ahşap ev dekorasyonu, çocuk ve evcil hayvan ürünleri mağazası. Kategorili ürün yapısı, güvenli ödeme, 2000 TL üzeri ücretsiz kargo ve iade koşulları.": "Ein Shop für Wohndekoration aus Holz sowie Kinder- und Haustierprodukte, hergestellt in Kocaeli. Kategorisierte Produktstruktur, sichere Zahlung, kostenloser Versand ab 2000 TL und Rückgabebedingungen.", "E-ticaret · Kocaeli": "E-Commerce · Kocaeli", "Bir projenin yolu": "So läuft ein Projekt ab", "Her adımın sonunda elinizde somut bir çıktı olur, böylece neyin ne zaman biteceği hep açıktır.": "Jeder Schritt endet mit einem greifbaren Ergebnis, sodass immer klar ist, was wann fertig wird.", "Keşif": "Analyse", "Hedefinizi, kullanıcılarınızı ve mevcut sistemlerinizi dinlerim. Sonunda yazılı kapsam ve teklif alırsınız.": "Ich höre mir Ihre Ziele, Ihre Nutzer und Ihre bestehenden Systeme an. Am Ende erhalten Sie einen schriftlichen Umfang und ein Angebot.", "Tasarım": "Design", "Tıklanabilir bir prototip hazırlanır. Kod yazılmadan önce ekranları görür ve onaylarsınız.": "Ein klickbarer Prototyp wird erstellt. Sie sehen und bestätigen die Screens, bevor Code geschrieben wird.", "Geliştirme": "Entwicklung", "Haftalık demolarla ilerlenir. Her hafta çalışan bir sürümü kendiniz denersiniz.": "Wir arbeiten mit wöchentlichen Demos. Jede Woche testen Sie selbst eine lauffähige Version.", "Yayın ve destek": "Launch und Support", "Canlıya alma, ölçüm kurulumu ve sonrasında bakım planı.": "Go-live, Einrichtung des Trackings und anschließend ein Wartungsplan.", "Çalışma ilkeleri": "Arbeitsprinzipien", "Kaynak kod sizde": "Der Quellcode gehört Ihnen", "Proje bitince kod, alan adı ve hesaplar adınıza teslim edilir.": "Nach Projektende werden Code, Domain und Konten auf Ihren Namen übergeben.", "Yazılı kapsam ve fiyat": "Schriftlicher Umfang und Preis", "Başlamadan önce neyin ne kadara yapılacağı netleşir.": "Vor dem Start steht fest, was für welchen Preis umgesetzt wird.", "Haftalık demo": "Wöchentliche Demo", "İlerlemeyi rapordan değil, çalışan üründen görürsünüz.": "Den Fortschritt sehen Sie am laufenden Produkt, nicht in einem Bericht.", "Başlamadan önce akla gelenler": "Fragen vor dem Start", "Projeler ne kadar sürer?": "Wie lange dauern Projekte?", "Kapsama bağlıdır. Keşif görüşmesinin sonunda yazılı bir takvim ve teklif gönderirim.": "Das hängt vom Umfang ab. Nach dem Erstgespräch sende ich Ihnen einen schriftlichen Zeitplan und ein Angebot.", "SEO çalışması site yapımına dahil mi?": "Ist SEO in der Website-Erstellung enthalten?", "Teknik SEO her sitede standarttır. Anahtar kelime araştırması ve içerik stratejisi ayrı kalem olarak teklife yazılır.": "Technisches SEO ist bei jeder Website Standard. Keyword-Recherche und Content-Strategie werden als eigene Position im Angebot aufgeführt.", "Mevcut sitem veya uygulamam için destek alabilir miyim?": "Kann ich Unterstützung für meine bestehende Website oder App bekommen?", "Evet. Hız, SEO, hata düzeltme veya yeni özellik için tek seferlik ya da aylık destek verebilirim.": "Ja. Für Geschwindigkeit, SEO, Fehlerbehebung oder neue Funktionen biete ich einmalige oder monatliche Unterstützung an.", "Projenizi kısaca anlatın.": "Schildern Sie Ihr Projekt kurz.", "Mesajınıza yazılı bir ilk değerlendirmeyle dönerim. Form yerine doğrudan e-posta da yazabilirsiniz.": "Ich antworte auf Ihre Nachricht mit einer ersten schriftlichen Einschätzung. Sie können mir auch direkt eine E-Mail schreiben, statt das Formular zu nutzen.", "Kopyala": "Kopieren", "LinkedIn profilim ↗": "Mein LinkedIn-Profil ↗", "Ne üzerine?": "Worum geht es?", "Web sitesi ve SEO": "Website und SEO", "Kurumsal yazılım": "Unternehmenssoftware", "Diğer": "Sonstiges", "Adınız": "Ihr Name", "E-posta": "E-Mail", "Projeniz": "Ihr Projekt", "Adınız Soyadınız": "Vor- und Nachname", "Ne yapmak istiyorsunuz, kimler kullanacak, hedef tarih var mı?": "Was möchten Sie umsetzen, wer wird es nutzen, gibt es einen Zieltermin?", "Gönder →": "Senden →", "© 2026 İlker Şendoğan. Yazılım geliştirme.": "© 2026 İlker Şendoğan. Softwareentwicklung.", "Başa dön ↑": "Nach oben ↑", "İlker Şendoğan, ana sayfa": "İlker Şendoğan, Startseite", "Ana menü": "Hauptmenü", "Mobil menü": "Mobiles Menü", "Dil": "Sprache", "Menüyü aç": "Menü öffnen", "Menüyü kapat": "Menü schließen", "Koyu temaya geç": "Zum dunklen Design wechseln", "Açık temaya geç": "Zum hellen Design wechseln", "Kopyalandı": "Kopiert", "Seçildi, Ctrl+C ile kopyalayın": "Ausgewählt, mit Strg+C kopieren", "Size dönebilmem için geçerli bir e-posta adresi yazın.": "Bitte geben Sie eine gültige E-Mail-Adresse an, damit ich antworten kann.", "Mesajınız iletildi. En kısa sürede dönüş yapacağım.": "Ihre Nachricht wurde gesendet. Ich melde mich so schnell wie möglich.", "Mesaj gönderilemedi. Lütfen e-posta ile yazın.": "Die Nachricht konnte nicht gesendet werden. Bitte schreiben Sie mir per E-Mail.", "Önizleme modu: form henüz bir adrese bağlı değil, mesajınız aşağıda hazırlandı.": "Vorschaumodus: Das Formular ist noch nicht mit einer Adresse verbunden, Ihre Nachricht ist unten vorbereitet."}};
+  const H1 = {"en": "I build <mark>software</mark> that gets found, gets used and keeps growing.", "de": "Ich entwickle <mark>Software</mark> für mehr Sichtbarkeit, Nutzung und Wachstum."};
+  const META = {"tr": {"title": "İlker Şendoğan Yazılım", "desc": "Web sitesi ve SEO, mobil uygulama ve kurumsal yazılım geliştirme. Tasarımdan yayına ve bakıma kadar tek elden, yazılı kapsam ve haftalık demolarla."}, "en": {"title": "İlker Şendoğan Software", "desc": "Web and SEO, mobile app and business software development. One person from design to launch and maintenance, with a written scope and weekly demos."}, "de": {"title": "İlker Şendoğan Software", "desc": "Entwicklung von Websites mit SEO, mobilen Apps und Unternehmenssoftware. Eine Ansprechperson von der Gestaltung bis zum Launch und zur Wartung, mit schriftlichem Umfang und wöchentlichen Demos."}};
+  const root = document.documentElement;
+  let lang = "tr";
+  const T = (s) => (I18N[lang] && I18N[lang][s]) || s;
+
+  // Dil
+  const textOrig = new WeakMap();
+  const attrOrig = new WeakMap();
+  const h1 = document.getElementById("h1");
+  const h1Tr = h1.innerHTML;
+  const setMeta = (sel, val) => { const m = document.querySelector(sel); if (m) m.setAttribute("content", val); };
+  const durum = document.getElementById("durum");
+  const ozet = document.getElementById("ozet");
+
+  function applyLang(l) {
+    lang = l === "en" || l === "de" ? l : "tr";
+    root.lang = lang;
+    const d = I18N[lang] || {};
+    const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let n;
+    while ((n = w.nextNode())) {
+      const p = n.parentElement;
+      if (!p || p.closest("script,style,code,pre,[data-no-i18n]")) continue;
+      if (!textOrig.has(n)) textOrig.set(n, n.nodeValue);
+      const o = textOrig.get(n), k = o.trim();
+      if (!k) continue;
+      n.nodeValue = d[k] ? o.replace(k, () => d[k]) : o;
+    }
+    document.querySelectorAll("[placeholder],[aria-label]").forEach((el) => {
+      if (el.closest("[data-no-i18n]")) return;
+      let m = attrOrig.get(el);
+      if (!m) { m = {}; attrOrig.set(el, m); }
+      ["placeholder", "aria-label"].forEach((a) => {
+        if (!el.hasAttribute(a)) return;
+        if (!(a in m)) m[a] = el.getAttribute(a);
+        el.setAttribute(a, d[m[a]] || m[a]);
+      });
+    });
+    h1.innerHTML = lang === "tr" ? h1Tr : H1[lang];
+    const mt = META[lang];
+    document.title = mt.title;
+    setMeta('meta[name="description"]', mt.desc);
+    setMeta('meta[property="og:title"]', mt.title);
+    setMeta('meta[property="og:description"]', mt.desc);
+    document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    durum.textContent = "";
+    ozet.hidden = true;
+    setMenu(!mnav.hidden);
+    paintTheme();
+  }
+
+  function pickLang() {
+    try {
+      const s = localStorage.getItem("lang");
+      if (s === "tr" || s === "en" || s === "de") return s;
+    } catch (_) {}
+    const list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "tr"];
+    for (const x of list) {
+      const c = String(x).slice(0, 2).toLowerCase();
+      if (c === "tr" || c === "de" || c === "en") return c;
+    }
+    return "en";
+  }
+
+  document.querySelectorAll("[data-lang]").forEach((b) => {
+    b.addEventListener("click", () => {
+      applyLang(b.dataset.lang);
+      try { localStorage.setItem("lang", lang); } catch (_) {}
+    });
+  });
+
+  // Tema
+  const themeBtn = document.getElementById("theme-btn");
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : mq.matches);
+  function paintTheme() {
+    const dk = isDark();
+    themeBtn.classList.toggle("is-dark", dk);
+    themeBtn.setAttribute("aria-label", T(dk ? "Açık temaya geç" : "Koyu temaya geç"));
+  }
+  themeBtn.addEventListener("click", () => {
+    const next = isDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (_) {}
+    paintTheme();
+  });
+  mq.addEventListener("change", paintTheme);
+  new MutationObserver(paintTheme).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
 
   // Mobil menü
   const menuBtn = document.getElementById("menu-btn");
   const mnav = document.getElementById("mnav");
-  const setMenu = (open) => {
+  function setMenu(open) {
     mnav.hidden = !open;
     menuBtn.setAttribute("aria-expanded", String(open));
-    menuBtn.setAttribute("aria-label", open ? "Menüyü kapat" : "Menüyü aç");
-  };
+    menuBtn.setAttribute("aria-label", T(open ? "Menüyü kapat" : "Menüyü aç"));
+  }
   menuBtn.addEventListener("click", () => setMenu(mnav.hidden));
   mnav.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
   document.addEventListener("click", (e) => {
     if (!mnav.hidden && !mnav.contains(e.target) && !menuBtn.contains(e.target)) setMenu(false);
   });
-  window.matchMedia("(min-width: 721px)").addEventListener("change", (m) => { if (m.matches) setMenu(false); });
+  window.matchMedia("(min-width: 961px)").addEventListener("change", (m) => { if (m.matches) setMenu(false); });
 
   // Kartlarda imleci izleyen ışık
   document.querySelectorAll(".card").forEach((c) => {
@@ -801,50 +921,53 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   document.querySelectorAll("[data-copy]").forEach((btn) => {
     btn.addEventListener("click", async () => {
       const el = document.querySelector(btn.dataset.copy);
-      const old = btn.textContent;
+      const tn = btn.firstChild;
+      let msg = "Kopyalandı";
       try {
         await navigator.clipboard.writeText(el.textContent.trim());
-        btn.textContent = "Kopyalandı";
       } catch (_) {
         const range = document.createRange();
         range.selectNodeContents(el);
         const sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
-        btn.textContent = "Seçildi, Ctrl+C ile kopyalayın";
+        msg = "Seçildi, Ctrl+C ile kopyalayın";
       }
-      setTimeout(() => (btn.textContent = old), 2200);
+      tn.nodeValue = T(msg);
+      setTimeout(() => { tn.nodeValue = T("Kopyala"); }, 2200);
     });
   });
 
   // İletişim formu
   const form = document.getElementById("iletisim-formu");
-  const durum = document.getElementById("durum");
-  const ozet = document.getElementById("ozet");
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(form));
     if (!d.eposta || !/^\S+@\S+\.\S+$/.test(d.eposta)) {
-      durum.textContent = "Size dönebilmem için geçerli bir e-posta adresi yazın.";
+      durum.textContent = T("Size dönebilmem için geçerli bir e-posta adresi yazın.");
       document.getElementById("f-eposta").focus();
       return;
     }
-    const metin = `Ad: ${d.ad || "-"}\nE-posta: ${d.eposta}\nKonu: ${d.tur}\n\n${d.mesaj || "-"}`;
+    const metin = `Ad: ${d.ad || "-"}\nE-posta: ${d.eposta}\nKonu: ${d.tur}\nDil: ${lang}\n\n${d.mesaj || "-"}`;
+    if (d._gotcha) { durum.textContent = T("Mesajınız iletildi. En kısa sürede dönüş yapacağım."); form.reset(); return; }
     if (FORM_ENDPOINT) {
+      const payload = { name: d.ad || "", email: d.eposta, konu: d.tur, mesaj: d.mesaj || "", dil: lang, _subject: "Web sitesi mesajı: " + d.tur };
       try {
-        const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(d) });
+        const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) });
         if (!r.ok) throw new Error(r.status);
-        durum.textContent = "Mesajınız iletildi. En kısa sürede dönüş yapacağım.";
+        durum.textContent = T("Mesajınız iletildi. En kısa sürede dönüş yapacağım.");
         form.reset();
       } catch (_) {
-        durum.textContent = "Mesaj gönderilemedi. Lütfen e-posta ile yazın.";
+        durum.textContent = T("Mesaj gönderilemedi. Lütfen e-posta ile yazın.");
       }
       return;
     }
     ozet.textContent = metin;
     ozet.hidden = false;
-    durum.textContent = "Önizleme modu: form henüz bir adrese bağlı değil, mesajınız aşağıda hazırlandı.";
+    durum.textContent = T("Önizleme modu: form henüz bir adrese bağlı değil, mesajınız aşağıda hazırlandı.");
   });
+
+  applyLang(pickLang());
 })();
 </script>
 

@@ -29,7 +29,7 @@ Web sitesi ve SEO, mobil uygulama ve kurumsal yazılım hizmetleri için hazırl
 
 ## İletişim formu
 
-Form şu an bir adrese bağlı değil. Mesajların e-postanıza ulaşması için `index.html` dosyasının sonundaki `FORM_ENDPOINT` satırına bir form servisinin (Formspree, Getform vb.) adresini yazın.
+Form Formspree üzerinden çalışır. Mesajlar Formspree hesabındaki e-posta adresine gelir. Adresi değiştirmek için `index.html` dosyasındaki `FORM_ENDPOINT` satırını düzenleyin.
 
 ## İletişim
 
