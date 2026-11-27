@@ -1,6 +1,6 @@
 # ilkhukuk | Yazılım Hizmetleri
 
-Web sitesi ve SEO, mobil uygulama ve kurumsal yazılım hizmetleri için hazırlanmış tek sayfalık kişisel site.
+Web sitesi ve SEO, mobil uygulama, kurumsal yazılım ve yapay zeka (AI) çözümleri için hazırlanmış tek sayfalık kişisel site.
 
 ## Özellikler
 
